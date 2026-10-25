@@ -1,173 +1,368 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BGBCS4K3F3"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-  
-    gtag('config', 'G-BGBCS4K3F3');
-  </script>
-  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Data and code behind Michael Weber's research: NielsenIQ survey experiments, the EEC-BIS Global Subjective Expectations Survey, and replication material from other projects.">
   <title>Data &amp; Code | Michael Weber</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600&family=Spectral:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">  
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600&amp;family=Spectral:ital,wght@0,400;0,600;1,400&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <style>
-    :root {
-      --color-accent:    #1e3a5f;
-      --color-accent-lt: #2563a8;
-      --color-surface:   #f6f8fb;
-      --color-border:    #dde3ea;
-    }
-    .nav-links a { color: var(--color-muted); }
-    .nav-links a:hover, .nav-links a.active { color: var(--color-accent); }
-    .section-title { color: var(--color-accent); border-bottom-color: var(--color-accent); }
-    /* Paper title: dark text, navy on hover — same as research page */
-    .paper-title a { color: var(--color-text); text-decoration: none; }
-    .paper-title a:hover { color: var(--color-accent); text-decoration: underline; }
-    /* Match research page spacing */
-    .paper-item { padding: 0.9rem 0; border-bottom: 1px solid var(--color-border); }
-    .paper-item:last-child { border-bottom: none; }
-    .paper-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.2rem; }
-    .paper-authors { font-size: 0.85rem; color: var(--color-muted); margin-bottom: 0.4rem; }
-    .paper-links { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.45rem; }
-  </style>
-</head>
-<body>
+    :root { --color-accent:#1e3a5f; --color-accent-lt:#2563a8; --color-surface:#f6f8fb; --color-border:#dde3ea; }
+    .nav-links a { color:var(--color-muted); }
+    .nav-links a:hover,.nav-links a.active { color:var(--color-accent); }
+    .data-overview { width:100%; }
 
+    /* Layout: section label + jump menu in the left column, all sections stacked on the right */
+    .page-wrapper { grid-template-columns:190px minmax(0,1fr); gap:3rem; }
+    .main-content { padding-top:0; }
+    .data-side { top:calc(var(--nav-height) + 2rem); }
+    .data-side-title { margin-top:0; margin-bottom:.9rem; font-size:.95rem; }
+    .data-nav { display:flex; flex-direction:column; border-left:1px solid var(--color-border); }
+    .data-nav a { display:block; margin-left:-1px; padding:.5rem 0 .5rem 1rem; border-left:2px solid transparent; color:var(--color-muted); font-size:.9rem; font-weight:500; line-height:1.4; letter-spacing:.01em; text-decoration:none; transition:color .15s,border-color .15s,background .15s; }
+    .data-nav a:hover { color:var(--color-accent); background:rgba(30,58,95,.04); text-decoration:none; }
+    .data-nav a.is-active { border-left-color:var(--color-accent); color:var(--color-accent); font-weight:600; }
+    .data-nav a:focus-visible { outline:2px solid var(--color-accent-lt); outline-offset:-2px; }
+
+    .overview-intro { margin:0; }
+    .overview-intro p { max-width:720px; color:var(--color-muted); font-size:1.03rem; line-height:1.75; }
+    .overview-intro p+p { margin-top:.9rem; }
+
+    /* Sections, stacked */
+    .data-panel { margin-top:3.2rem; padding-top:2.6rem; border-top:1px solid var(--color-border); scroll-margin-top:calc(var(--nav-height) + 1.5rem); }
+    .data-panel h2 { margin:0 0 .6rem; color:var(--color-accent); font-size:1.2rem; letter-spacing:.015em; }
+    .section-lead { max-width:720px; margin-bottom:1.5rem; color:var(--color-muted); font-size:.95rem; line-height:1.7; }
+
+    /* Descriptive table */
+    .facts { width:100%; border-collapse:collapse; border-top:1px solid var(--color-border); }
+    .facts th,.facts td { padding:.8rem 0; border-bottom:1px solid var(--color-border); vertical-align:top; text-align:left; font-size:.9rem; line-height:1.6; }
+    .facts th { width:11.5rem; padding-right:1.5rem; color:var(--color-accent-lt); font-family:var(--font-mono); font-size:.68rem; font-weight:400; letter-spacing:.06em; text-transform:uppercase; white-space:nowrap; padding-top:.95rem; }
+    .facts td { color:var(--color-text); }
+    .facts td ul { margin:0; padding-left:1.1rem; }
+    .facts td li+li { margin-top:.25rem; }
+    .facts td .sub { display:block; }
+    .facts th .th-note { display:block; margin-top:.5rem; color:var(--color-subtle); font-family:var(--font-sans); font-size:.76rem; letter-spacing:0; line-height:1.45; text-transform:none; white-space:normal; }
+
+
+    /* Sub-headings, wave tables, notes */
+    .sub-title { margin:2.8rem 0 .9rem; font-size:1.05rem; }
+    .waves { width:100%; border-collapse:collapse; border-top:1px solid var(--color-border); font-size:.88rem; }
+    .waves thead th { padding:.7rem .8rem .6rem 0; border-bottom:1px solid var(--color-border); color:var(--color-accent-lt); font-family:var(--font-mono); font-size:.66rem; font-weight:400; letter-spacing:.06em; text-align:left; text-transform:uppercase; }
+    .waves td { padding:.65rem .8rem .65rem 0; border-bottom:1px solid var(--color-border); vertical-align:top; line-height:1.5; }
+    .waves td:first-child { font-weight:600; white-space:nowrap; }
+    .waves tr.group th { padding:1.1rem 0 .5rem; border-bottom:1px solid var(--color-border); background:none; color:var(--color-accent); font-family:var(--font-serif); font-size:.92rem; font-weight:600; text-align:left; }
+    .waves .soon { color:var(--color-subtle); }
+    .waves td a { font-weight:600; }
+    .waves-intro { max-width:720px; margin-bottom:1rem; color:var(--color-muted); font-size:.92rem; line-height:1.7; }
+    .table-note { margin-top:.7rem; color:var(--color-subtle); font-size:.8rem; line-height:1.5; }
+
+    /* Figure explorer */
+    .fig-explorer { padding:1.2rem 1.3rem 1.3rem; border:1px solid var(--color-border); border-radius:5px; background:var(--color-bg); }
+    .fig-controls { display:flex; align-items:center; gap:.8rem; margin-bottom:1rem; }
+    .fig-controls label { color:var(--color-accent-lt); font-family:var(--font-mono); font-size:.68rem; letter-spacing:.06em; text-transform:uppercase; }
+    .fig-controls select { max-width:100%; min-width:16rem; padding:.45rem .7rem; border:1px solid var(--color-border); border-radius:3px; background:#fff; color:var(--color-text); font:inherit; font-size:.9rem; }
+    .fig-controls select:disabled { color:var(--color-subtle); background:var(--color-surface); }
+    .fig-stage { min-height:260px; }
+    .fig-empty { display:grid; place-items:center; min-height:260px; padding:1.5rem; border:1px dashed var(--color-border); border-radius:4px; background:var(--color-surface); color:var(--color-subtle); font-size:.88rem; text-align:center; line-height:1.6; }
+    .fig-title { margin:0 0 .2rem; font-family:var(--font-serif); font-size:1rem; font-weight:600; }
+    .fig-legend { display:flex; flex-wrap:wrap; gap:.3rem 1.1rem; margin:.4rem 0 .6rem; color:var(--color-muted); font-size:.8rem; }
+    .fig-legend span { display:inline-flex; align-items:center; gap:.4rem; }
+    .fig-legend i { display:inline-block; width:.7rem; height:.7rem; border-radius:2px; }
+    .fig-stage svg { display:block; width:100%; height:auto; }
+    .fig-stage svg text { fill:var(--color-muted); font-family:var(--font-sans); font-size:11px; }
+    .fig-stage svg .axis-title { font-size:11.5px; fill:var(--color-text); }
+
+    /* Access note */
+    .access-note { margin-top:1.6rem; padding:1rem 1.2rem; border-left:3px solid var(--color-accent-lt); background:var(--color-surface); font-size:.9rem; line-height:1.65; }
+    .access-note strong { display:block; margin-bottom:.15rem; color:var(--color-accent); font-size:.92rem; }
+    .access-note a { font-weight:600; }
+    .access-first { margin:0 0 1.8rem; }
+
+
+    /* Other data list */
+    .paper-list { margin:1.5rem 0 0; padding:0; list-style:none; border-top:1px solid var(--color-border); }
+    .paper-item { padding:.95rem 0; border-bottom:1px solid var(--color-border); }
+    .paper-title { margin-bottom:.2rem; font-size:.95rem; font-weight:600; }
+    .paper-title a { color:var(--color-text); text-decoration:none; }
+    .paper-title a:hover { color:var(--color-accent); text-decoration:underline; }
+    .paper-authors { margin-bottom:.4rem; color:var(--color-muted); font-size:.85rem; }
+    .paper-links { display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.45rem; }
+
+    @media (max-width:700px) {
+      .page-wrapper { display:block; padding-top:0; }
+      .data-side { display:block; text-align:left; position:sticky; top:var(--nav-height); z-index:20; margin:0 -1.2rem 1.4rem; padding:0 1.2rem; background:var(--color-bg); }
+      .data-side-title { display:none; }
+      .data-nav { flex-direction:row; gap:0 1.4rem; overflow-x:auto; scrollbar-width:none; border-left:0; border-bottom:1px solid var(--color-border); -webkit-mask-image:linear-gradient(90deg,#000 90%,transparent); mask-image:linear-gradient(90deg,#000 90%,transparent); padding-right:1.5rem; }
+      .data-nav::-webkit-scrollbar { display:none; }
+      .data-nav a { flex:0 0 auto; margin:0 0 -1px; padding:.8rem 0; border-left:0; border-bottom:2px solid transparent; white-space:nowrap; }
+      .data-nav a.is-active { border-bottom-color:var(--color-accent); }
+      .data-panel { margin-top:2.4rem; padding-top:2rem; scroll-margin-top:calc(var(--nav-height) + 3.6rem); }
+      .fig-controls { flex-direction:column; align-items:flex-start; gap:.4rem; }
+      .fig-controls select { width:100%; min-width:0; }
+      .fig-explorer { padding:1rem; }
+      .waves thead { display:none; }
+      .waves,.waves tbody,.waves tr,.waves td { display:block; width:100%; }
+      .waves tr:not(.group) { padding:.7rem 0; border-bottom:1px solid var(--color-border); }
+      .waves td { display:flex; justify-content:space-between; gap:1rem; padding:.15rem 0; border:0; text-align:right; }
+      .waves td::before { content:attr(data-label); color:var(--color-subtle); font-family:var(--font-mono); font-size:.64rem; letter-spacing:.06em; text-transform:uppercase; text-align:left; white-space:nowrap; padding-top:.2rem; }
+      .waves td:first-child { white-space:normal; }
+      .waves tr.group { display:block; }
+      .waves tr.group th { display:block; }
+      .facts,.facts tbody,.facts tr,.facts th,.facts td { display:block; width:100%; }
+      .facts tr { padding:.8rem 0; border-bottom:1px solid var(--color-border); }
+      .facts th,.facts td { padding:0; border:0; }
+      .facts th { padding-bottom:.2rem; }
+    }
+  </style>
+  </head>
+<body>
   <nav class="site-nav">
     <div class="nav-inner">
-    <a href="index.html" class="nav-brand">Michael Weber</a>
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="research.html">Research</a></li>
-      <li><a href="data-code.html" class="active">Data &amp; Code</a></li>
-      <li><a href="files/cv.pdf" target="_blank">CV</a></li>
-      <li><a href="talks.html">Talks</a></li>
-      <li><a href="media.html">Media</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <a href="https://esmt.berlin/faculty-research/centers-institutes-initiatives/european-expectations-center-eec" target="_blank" rel="noopener">EEC</a>
-    </ul>
-    <button class="nav-hamburger" aria-label="Toggle navigation" onclick="this.closest('nav').querySelector('.nav-links').classList.toggle('open')">
-      <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-    </button>
-      </div>
+      <a href="index.html" class="nav-brand">Michael Weber</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li><li><a href="research.html">Research</a></li><li><a href="data-code.html" class="active">Data &amp; Code</a></li><li><a href="files/cv.pdf" target="_blank">CV</a></li><li><a href="talks.html">Talks</a></li><li><a href="media.html">Media</a></li><li><a href="blog.html">Blog</a></li><li><a href="https://esmt.berlin/faculty-research/centers-institutes-initiatives/european-expectations-center-eec" target="_blank" rel="noopener">EEC</a></li>
+      </ul>
+      <button class="nav-hamburger" aria-label="Toggle navigation" aria-expanded="false"><svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+    </div>
   </nav>
 
-  <div class="page-wrapper no-sidebar">
+  <div class="page-wrapper">
+    <aside class="sidebar data-side">
+      <div class="section-title data-side-title">Data &amp; Code</div>
+      <nav class="data-nav" aria-label="Data and code sections">
+        <a href="#homescan">NielsenIQ Surveys</a>
+        <a href="#global-survey">EEC-BIS Global Survey</a>
+        <a href="#other-data-codes">Other Data &amp; Code</a>
+      </nav>
+    </aside>
     <main class="main-content">
+      <article class="data-overview">
+        <header class="overview-intro">
+          <p>My research draws on a wide range of data, with two major survey programs playing an important role: the long-running NielsenIQ survey experiments in the United States and the Global Subjective Expectations Survey (GSES), launched with the BIS in 2025 and conducted jointly by the EEC and BIS since 2026. Together, these projects study how people form expectations and how those expectations relate to economic behavior.</p>
+          <p>The sections below provide data and materials from these projects, alongside other datasets used in my research.</p>
+        </header>
 
-      <div class="section-title">Data &amp; Code</div>
+        
 
-      <ul class="paper-list">
+        <section class="data-panel" id="homescan">
+          <h2>Customized NielsenIQ Surveys</h2>
+          <p class="section-lead">Since 2015, customized surveys have been fielded to the NielsenIQ consumer (Homescan) panel, a U.S. household panel that records purchases by scanning them at home. The surveys combine households&rsquo; stated expectations, their scanned purchases and the prices they paid, and randomized information treatments, which allows the analysis to move from correlation to causation.</p>
+          <table class="facts">
+            <tbody>
+              <tr><th scope="row">Coverage</th><td>United States</td></tr>
+              <tr><th scope="row">Sampling</th><td>NielsenIQ consumer (Homescan) panel</td></tr>
+              <tr><th scope="row">Topics</th><td>Demographics, financial habits, inflation and price expectations, financial literacy and risk tolerance, credit card usage and debt</td></tr>
+              <tr><th scope="row">Distinctive feature</th><td>Expectations linked to scanned purchases and prices paid; randomized information treatments</td></tr>
+              <tr><th scope="row">Frequency</th><td>Annual (2015–2016); Quarterly since 2018</td></tr>
+              <tr><th scope="row">Survey company</th><td>NielsenIQ</td></tr>
+              <tr><th scope="row">Reference articles<span class="th-note">Users of these data must cite these articles</span></th><td>
+                <ul>
+                  <li>D&rsquo;Acunto, Malmendier, Ospina and Weber (2021), &ldquo;<a href="https://www.journals.uchicago.edu/doi/10.1086/713192" target="_blank" rel="noopener">Exposure to Grocery Prices and Inflation Expectations</a>,&rdquo; <em>Journal of Political Economy</em></li>
+                  <li>D&rsquo;Acunto, Malmendier and Weber (2021), &ldquo;<a href="https://www.pnas.org/content/118/21/e2008534118" target="_blank" rel="noopener">Gender Roles Produce Divergent Economic Expectations</a>,&rdquo; <em>Proceedings of the National Academy of Sciences</em></li>
+                  <li>Coibion, Gorodnichenko and Weber (2022), &ldquo;<a href="https://www.journals.uchicago.edu/doi/abs/10.1086/718982" target="_blank" rel="noopener">Monetary Policy Communications and Their Effects on Household Inflation Expectations</a>,&rdquo; <em>Journal of Political Economy</em></li>
+                  <li>Coibion, Georgarakos, Gorodnichenko and Weber (2023), &ldquo;<a href="https://academic.oup.com/jeea/article/21/5/2131/7005218" target="_blank" rel="noopener">Forward Guidance and Household Expectations</a>,&rdquo; <em>Journal of the European Economic Association</em></li>
+                  <li>Weber et al. (2025), &ldquo;<a href="https://onlinelibrary.wiley.com/doi/full/10.3982/ECTA22764" target="_blank" rel="noopener">Tell Me Something I Don&rsquo;t Already Know: Learning in Low- and High-Inflation Environments</a>,&rdquo; <em>Econometrica</em></li>
+                </ul>
+              </td></tr>
+            </tbody>
+          </table>
+          <p class="table-note">The surveys are currently funded through <a href="https://www.nsf.gov/awardsearch/show-award?AWD_ID=2343698" target="_blank" rel="noopener">NSF grant #2343698</a>, hosted by the National Bureau of Economic Research.</p>
 
-        <li class="paper-item">
-          <div class="paper-title">
-            <a href="https://www.aeaweb.org/articles?id=10.1257/aer.20221167" target="_blank">The Effect of Macroeconomic Uncertainty on Household Spending</a>
-          </div>
-          <div class="paper-authors" style="font-style:italic;"><em>American Economic Review</em>, 2024</div>
-          <div class="paper-links">
-            <a href="https://doi.org/10.3886/E184646V1" class="paper-link" target="_blank">Data &amp; Code</a>
-          </div>
-        </li>        
 
-        <li class="paper-item">
-          <div class="paper-title">
-            <a href="https://academic.oup.com/rfs/article/36/1/351/6585907" target="_blank">Cybersecurity Risk</a>
+          <h3 class="sub-title">Data access and questionnaires</h3>
+          <p class="waves-intro">The surveys are ongoing and have been fielded quarterly since 2018. The underlying data are released once the associated research has been published. The table lists the waves currently available upon request, with a link to the questionnaire for each wave.</p>
+          
+          <div class="access-note access-first">
+            <strong>Requesting access</strong>
+            The NielsenIQ data are not distributed on this site. Access is granted through the <a href="https://www.chicagobooth.edu/research/kilts/research-data/nielseniq" target="_blank" rel="noopener">Kilts Center for Marketing at the University of Chicago Booth School of Business</a>, where the surveys are listed under &ldquo;Custom Panel Surveys: Economic Expectations, Attitudes, and Habits.&rdquo; They are available at no additional cost to subscribers of the NielsenIQ Consumer Panel data, which requires a subscription contract between the researcher&rsquo;s institution and Chicago Booth.
           </div>
-          <div class="paper-authors" style="font-style:italic;"><em>Review of Financial Studies</em>, 2023</div>
-          <div class="paper-links">
-            <a href="https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/LCVVG5" class="paper-link" target="_blank">Data &amp; Code</a>
-          </div>
-        </li>
 
-        <li class="paper-item">
-          <div class="paper-title">
-            <a href="https://academic.oup.com/restud/article/90/5/2292/6782973" target="_blank">IQ, Expectations, and Choice</a>
-          </div>
-          <div class="paper-authors" style="font-style:italic;"><em>Review of Economic Studies</em>, 2023</div>
-          <div class="paper-links">
-            <a href="https://doi.org/10.5281/zenodo.6012866" class="paper-link" target="_blank">Data &amp; Code</a>
-          </div>
-        </li>
 
-        <li class="paper-item">
-          <div class="paper-title">
-            <a href="https://www.pnas.org/content/118/21/e2008534118" target="_blank">Gender Roles Produce Divergent Economic Expectations</a>
-          </div>
-          <div class="paper-authors" style="font-style:italic;"><em>Proceedings of the National Academy of Sciences</em>, 2021</div>
-          <div class="paper-links">
-            <a href="https://doi.org/10.3886/E140001V2" class="paper-link" target="_blank">Data &amp; Code</a>
-          </div>
-        </li>
+          <table class="waves">
+            <thead><tr><th scope="col">Wave</th><th scope="col">Fielded</th><th scope="col">Households sampled</th><th scope="col">Respondents</th><th scope="col">Questionnaire</th></tr></thead>
+            <tbody>
+              <tr class="group"><th colspan="5" scope="colgroup">Chicago Booth Expectations and Attitudes Survey (CBEAS)</th></tr>
+                <tr><td data-label="Wave">Wave 1</td><td data-label="Fielded">June&ndash;July 2015</td><td data-label="Households sampled">92,511</td><td data-label="Respondents">49,383 (39,809 households)</td><td data-label="Questionnaire"><a href="https://uchicago.box.com/s/n1xbwutq1fv71swrimbbhenwiw6rrg0f" target="_blank" rel="noopener">View<span aria-hidden="true"> &#8599;</span></a></td></tr>
+                <tr><td data-label="Wave">Wave 2</td><td data-label="Fielded">June&ndash;July 2016</td><td data-label="Households sampled">95,300</td><td data-label="Respondents">43,036 (35,694 households)</td><td data-label="Questionnaire"><a href="https://uchicago.box.com/s/1bz8fxsfp9ymlf2t833m6hpkazkn36os" target="_blank" rel="noopener">View<span aria-hidden="true"> &#8599;</span></a></td></tr>
+              <tr class="group"><th colspan="5" scope="colgroup">Chicago Booth Expectations and Communications Survey (CBECS)</th></tr>
+                <tr><td data-label="Wave">2018 Wave 1</td><td data-label="Fielded">April&ndash;May 2018</td><td data-label="Households sampled">94,272</td><td data-label="Respondents">10,781</td><td data-label="Questionnaire"><a href="https://uchicago.box.com/s/mikauc3deykr9teg1d10pw6ntkpcs51d" target="_blank" rel="noopener">View<span aria-hidden="true"> &#8599;</span></a></td></tr>
+                <tr><td data-label="Wave">2018 Wave 1a</td><td data-label="Fielded">May&ndash;June 2018</td><td data-label="Households sampled">82,062</td><td data-label="Respondents">13,729</td><td data-label="Questionnaire"><a href="https://uchicago.box.com/s/qvg1wp3m8fa1kxa5wi327hcrnogzlv4t" target="_blank" rel="noopener">View<span aria-hidden="true"> &#8599;</span></a></td></tr>
+                <tr><td data-label="Wave">2018 Wave 2</td><td data-label="Fielded">September&ndash;October 2018</td><td data-label="Households sampled">82,062</td><td data-label="Respondents">47,128 (32,658 households)</td><td data-label="Questionnaire"><a href="https://uchicago.box.com/s/a8a1axw5qwu026lyntvin2ojm0n6b1ip" target="_blank" rel="noopener">View<span aria-hidden="true"> &#8599;</span></a></td></tr>
+                <tr><td data-label="Wave">2018 Wave 3</td><td data-label="Fielded">December 2018</td><td data-label="Households sampled">92,390</td><td data-label="Respondents">32,669 (29,348 households)</td><td data-label="Questionnaire"><a href="https://uchicago.box.com/s/sl81fdw00zdzk5h5qha5zi8a7s8dkrtb" target="_blank" rel="noopener">View<span aria-hidden="true"> &#8599;</span></a></td></tr>
+                <tr><td data-label="Wave">2019 Wave 1</td><td data-label="Fielded">March 2019</td><td data-label="Households sampled">92,982</td><td data-label="Respondents">26,929 (24,886 households)</td><td data-label="Questionnaire"><a href="https://uchicago.box.com/s/snjlcvrb6eg60f9s14rf72zvipthaecp" target="_blank" rel="noopener">View<span aria-hidden="true"> &#8599;</span></a></td></tr>
+                <tr><td data-label="Wave">2019 Wave 2</td><td data-label="Fielded">June&ndash;July 2019</td><td data-label="Households sampled">91,239</td><td data-label="Respondents">28,580 (26,661 households)</td><td data-label="Questionnaire"><a href="https://uchicago.box.com/s/4jb5e3avqdxpczqgllejn3s60hpfcsqo" target="_blank" rel="noopener">View<span aria-hidden="true"> &#8599;</span></a></td></tr>
+                <tr><td data-label="Wave">2019 Wave 3</td><td data-label="Fielded">September&ndash;October 2019</td><td data-label="Households sampled">57,825</td><td data-label="Respondents">15,915 (15,029 households)</td><td data-label="Questionnaire"><a href="https://uchicago.box.com/s/2e3s8cy2nizk7y83uvpqcdh67b9mip48" target="_blank" rel="noopener">View<span aria-hidden="true"> &#8599;</span></a></td></tr>
+            </tbody>
+          </table>
 
-        <li class="paper-item">
-          <div class="paper-title">
-            <a href="https://doi.org/10.1016/j.jmoneco.2019.10.001" target="_blank">The Propagation of Monetary Policy Shocks in a Heterogeneous Production Economy</a>
+          <h3 class="sub-title">Figures and latest results</h3>
+          <p class="waves-intro">Selected survey results, including more recent waves whose data are not yet available upon request. The figures are updated as new waves are completed.</p>
+          <!-- Figure explorer. To add figures, fill the JSON block below. Each figure:
+               {"id":"unique","label":"Menu text","title":"Chart title","type":"line" or "bar",
+                 "xLabel":"","yLabel":"","categories":["Wave 1","Wave 2"],
+                 "series":[{"name":"Series name","values":[1.2,3.4]}],"note":"Optional note or source"} -->
+          <div class="fig-explorer" id="fig-explorer">
+            <div class="fig-controls">
+              <label for="fig-select">Show</label>
+              <select id="fig-select" disabled><option>Figures coming soon</option></select>
+            </div>
+            <div class="fig-stage" id="fig-stage"><div class="fig-empty">Select a measure from the menu to display the figure. Figures from the NielsenIQ surveys will appear here.</div></div>
+            <p class="table-note" id="fig-note" hidden></p>
           </div>
-          <div class="paper-authors" style="font-style:italic;"><em>Journal of Monetary Economics</em>, 2020</div>
-          <div class="paper-links">
-            <a href="data & code/data_Pasten_Schoenle_Weber_2020_PropagationMonetaryPolicyShocksHeterogeneous_JME.xlsx" class="paper-link">Data</a>
-          </div>
-        </li>
+          <script type="application/json" id="nielsen-figures-data">[]</script>
+        </section>
 
-        <li class="paper-item">
-          <div class="paper-title">
-            <a href="https://www.sciencedirect.com/science/article/abs/pii/S0304405X18300667" target="_blank">Cash Flow Duration and the Term Structure of Equity Returns</a>
-          </div>
-          <div class="paper-authors" style="font-style:italic;"><em>Journal of Financial Economics</em>, 2018</div>
-          <div class="paper-links">
-            <a href="data & code/data_Weber_2018_CashFlowDurationTermStructure_JFE.xlsx" class="paper-link">Data</a>
-          </div>
-        </li>
+        <section class="data-panel" id="global-survey">
+          <h2>EEC-BIS Global Subjective Expectations Survey (GSES)</h2>
+          <p class="section-lead">Launched in 2025, this annual survey provides comparable evidence on households’ economic expectations across advanced and emerging economies. Its harmonized questionnaire enables cross-country comparisons of inflation expectations, perceptions of prices and wages, central bank knowledge, and information sources, while rotating special modules allow the survey to explore emerging economic questions. The survey is conducted by the European Expectations Center (EEC) in collaboration with the Bank for International Settlements (BIS). More data will be shared here soon.</p>
+          <table class="facts">
+            <tbody>
+              <tr><th scope="row">Coverage</th><td>32 countries, about 65% of the world&rsquo;s population and over 85% of global GDP</td></tr>
+              <tr><th scope="row">Methodology</th><td>Online survey panels with a harmonized sampling approach across waves. Samples are designed to be representative of each country&rsquo;s adults aged 18&ndash;70 by age and gender, although they are not probability samples of the full population. Respondents are screened for age and attention, and the questionnaire is translated into each country&rsquo;s official languages using a common protocol.</td></tr>
+              <tr><th scope="row">Distinctive feature</th><td>Harmonized questionnaire across countries, with rotating special modules</td></tr>
+              <tr><th scope="row">Frequency</th><td>Annual</td></tr>
+              <tr><th scope="row">Survey company</th><td>Cint</td></tr>
+              <tr><th scope="row">Research partner</th><td>Bank for International Settlements (BIS)</td></tr>
+              <tr><th scope="row">Reference articles<span class="th-note">Users of these data must cite these articles</span></th><td>
+                <ul>
+                  <li>D&rsquo;Acunto and Weber (2026), &ldquo;<a href="https://www.nber.org/papers/w35511" target="_blank" rel="noopener">Information and Macroeconomic Expectations: Global Evidence</a>,&rdquo; NBER Working Paper 35511</li>
+                  <li>D&rsquo;Acunto, De Fiore, Sandri and Weber (2025), &ldquo;<a href="https://www.bis.org/publ/qtrpdf/r_qt2509c.htm" target="_blank" rel="noopener">A Global Survey of Household Perceptions and Expectations</a>,&rdquo; <em>BIS Quarterly Review</em></li>
+                  <li>D&rsquo;Acunto, De Fiore, Sandri and Weber (forthcoming), &ldquo;<a href="papers/Weber_DAcunto_DeFiore_Sandri_InflationHouseholdsCentralBanks.pdf" target="_blank" rel="noopener">Inflation, Households, and Central Banks Around the World</a>,&rdquo; <em>Journal of Monetary Economics</em></li>
+                  <li>Bruschi, D&rsquo;Acunto, De Fiore, Sandri and Weber (2026), &ldquo;<a href="https://cepr.org/publications/dp21994" target="_blank" rel="noopener">Will AI Help or Hurt Work and the Economy? What People Around the World Expect</a>,&rdquo; working paper</li>
+                </ul>
+              </td></tr>
+            </tbody>
+          </table>
 
-        <li class="paper-item">
-          <div class="paper-title">
-            <a href="https://www.aeaweb.org/articles?id=10.1257/aer.20131513" target="_blank">Are Sticky Prices Costly? Evidence from the Stock Market</a>
-          </div>
-          <div class="paper-authors" style="font-style:italic;"><em>American Economic Review</em>, 2016</div>
-          <div class="paper-links">
-            <a href="https://doi.org/10.3886/E112963V1" class="paper-link" target="_blank">Data &amp; Code</a>
-          </div>
-        </li>            
+          <h3 class="sub-title">Data access and questionnaires</h3>
+          <p class="waves-intro">Data and questionnaires will be shared here soon.</p>
+          <table class="waves">
+            <thead><tr><th scope="col">Wave</th><th scope="col">Fielded</th><th scope="col">Countries</th><th scope="col">Respondents</th><th scope="col">Questionnaire</th></tr></thead>
+            <tbody>
+              <tr><td data-label="Wave">2025</td><td data-label="Fielded">March&ndash;April 2025</td><td data-label="Countries">32</td><td data-label="Respondents">More than 32,000 adults (about 1,000 per country)</td><td data-label="Questionnaire"><span class="soon">Coming soon</span></td></tr>
+              <tr><td data-label="Wave">2026</td><td data-label="Fielded">April&ndash;May 2026</td><td data-label="Countries">32</td><td data-label="Respondents">More than 64,000 adults (about 2,000 per country)</td><td data-label="Questionnaire"><span class="soon">Coming soon</span></td></tr>
+            </tbody>
+          </table>
+        </section>
 
-        <li class="paper-item">
-          <div class="paper-title">
-            <a href="https://www.sciencedirect.com/science/article/pii/S0304405X14001378" target="_blank">Conditional Risk Premia in Currency Markets and Other Asset Classes</a>
-          </div>
-          <div class="paper-authors" style="font-style:italic;"><em>Journal of Financial Economics</em>, 2014</div>
-          <div class="paper-links">
-            <a href="data & code/data_Lettau_Maggiori_Weber_2014_ConditionalRiskPremiaCurrencyMarkets_JFE.xlsx" class="paper-link">Data</a>
-          </div>
-        </li>
+        <section class="data-panel" id="other-data-codes">
+          <h2>Other Data &amp; Replication Code</h2>
+          <p class="section-lead">Replication data and code for selected papers.</p>
+          <ul class="paper-list">
+            <li class="paper-item">
+              <div class="paper-title"><a href="https://www.aeaweb.org/articles?id=10.1257/aer.20221167" target="_blank">The Effect of Macroeconomic Uncertainty on Household Spending</a></div>
+              <div class="paper-authors"><em>American Economic Review</em>, 2024</div>
+              <div class="paper-links"><a href="https://doi.org/10.3886/E184646V1" class="paper-link" target="_blank">Data &amp; Code</a></div>
+            </li>
+            <li class="paper-item">
+              <div class="paper-title"><a href="https://academic.oup.com/rfs/article/36/1/351/6585907" target="_blank">Cybersecurity Risk</a></div>
+              <div class="paper-authors"><em>Review of Financial Studies</em>, 2023</div>
+              <div class="paper-links"><a href="https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/LCVVG5" class="paper-link" target="_blank">Data &amp; Code</a></div>
+            </li>
+            <li class="paper-item">
+              <div class="paper-title"><a href="https://academic.oup.com/restud/article/90/5/2292/6782973" target="_blank">IQ, Expectations, and Choice</a></div>
+              <div class="paper-authors"><em>Review of Economic Studies</em>, 2023</div>
+              <div class="paper-links"><a href="https://doi.org/10.5281/zenodo.6012866" class="paper-link" target="_blank">Data &amp; Code</a></div>
+            </li>
+            <li class="paper-item">
+              <div class="paper-title"><a href="https://www.pnas.org/content/118/21/e2008534118" target="_blank">Gender Roles Produce Divergent Economic Expectations</a></div>
+              <div class="paper-authors"><em>Proceedings of the National Academy of Sciences</em>, 2021</div>
+              <div class="paper-links"><a href="https://doi.org/10.3886/E140001V2" class="paper-link" target="_blank">Data &amp; Code</a></div>
+            </li>
+            <li class="paper-item">
+              <div class="paper-title"><a href="https://doi.org/10.1016/j.jmoneco.2019.10.001" target="_blank">The Propagation of Monetary Policy Shocks in a Heterogeneous Production Economy</a></div>
+              <div class="paper-authors"><em>Journal of Monetary Economics</em>, 2020</div>
+              <div class="paper-links"><a href="data &amp; code/data_Pasten_Schoenle_Weber_2020_PropagationMonetaryPolicyShocksHeterogeneous_JME.xlsx" class="paper-link">Data</a></div>
+            </li>
+            <li class="paper-item">
+              <div class="paper-title"><a href="https://www.sciencedirect.com/science/article/abs/pii/S0304405X18300667" target="_blank">Cash Flow Duration and the Term Structure of Equity Returns</a></div>
+              <div class="paper-authors"><em>Journal of Financial Economics</em>, 2018</div>
+              <div class="paper-links"><a href="data &amp; code/data_Weber_2018_CashFlowDurationTermStructure_JFE.xlsx" class="paper-link">Data</a></div>
+            </li>
+            <li class="paper-item">
+              <div class="paper-title"><a href="https://www.aeaweb.org/articles?id=10.1257/aer.20131513" target="_blank">Are Sticky Prices Costly? Evidence from the Stock Market</a></div>
+              <div class="paper-authors"><em>American Economic Review</em>, 2016</div>
+              <div class="paper-links"><a href="https://doi.org/10.3886/E112963V1" class="paper-link" target="_blank">Data &amp; Code</a></div>
+            </li>
+            <li class="paper-item">
+              <div class="paper-title"><a href="https://www.sciencedirect.com/science/article/pii/S0304405X14001378" target="_blank">Conditional Risk Premia in Currency Markets and Other Asset Classes</a></div>
+              <div class="paper-authors"><em>Journal of Financial Economics</em>, 2014</div>
+              <div class="paper-links"><a href="data &amp; code/data_Lettau_Maggiori_Weber_2014_ConditionalRiskPremiaCurrencyMarkets_JFE.xlsx" class="paper-link">Data</a></div>
+            </li>
+          </ul>
+        </section>
 
-      </ul>
-
+      </article>
     </main>
   </div>
 
-  <footer class="site-footer">
-    &copy; 2026 Michael Weber &mdash; Last updated <span id="last-modified"></span>
-    <script>
-      const d = new Date(document.lastModified);
-      document.getElementById('last-modified').textContent =
-        d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-    </script>
-  </footer>
-
+  <footer class="site-footer">&copy; 2026 Michael Weber &mdash; Last updated <span id="last-modified"></span></footer>
   <script>
-    document.querySelectorAll('.nav-links a').forEach(function(a) {
-      a.addEventListener('click', function() {
-        document.querySelector('.nav-links').classList.remove('open');
-      });
-    });
+    const menuButton=document.querySelector('.nav-hamburger');
+    const menu=document.querySelector('.nav-links');
+    menuButton.addEventListener('click',function(){const open=menu.classList.toggle('open');menuButton.setAttribute('aria-expanded',String(open));});
+    document.querySelectorAll('.nav-links a').forEach(function(link){link.addEventListener('click',function(){menu.classList.remove('open');menuButton.setAttribute('aria-expanded','false');});});
+    document.getElementById('last-modified').textContent=new Date(document.lastModified).toLocaleDateString('en-US',{month:'long',year:'numeric'});
+
+    const links=Array.from(document.querySelectorAll('.data-nav a'));
+    const sections=links.map(function(a){return document.getElementById(a.getAttribute('href').slice(1));});
+    function setActive(id){links.forEach(function(a){const on=a.getAttribute('href')==='#'+id;a.classList.toggle('is-active',on);if(on)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current');});}
+    function spy(){
+      const line=window.innerHeight*0.3;
+      let current=sections[0].id;
+      sections.forEach(function(s){if(s.getBoundingClientRect().top<=line)current=s.id;});
+      if(window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-4)current=sections[sections.length-1].id;
+      setActive(current);
+    }
+    let ticking=false;
+    window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(function(){spy();ticking=false;});}},{passive:true});
+    window.addEventListener('resize',spy);
+    links.forEach(function(a){a.addEventListener('click',function(){setActive(a.getAttribute('href').slice(1));});});
+    spy();
+
+    (function(){
+      var data=document.getElementById('nielsen-figures-data'),figs=[];
+      try{figs=JSON.parse(data.textContent)||[];}catch(e){}
+      var sel=document.getElementById('fig-select'),stage=document.getElementById('fig-stage'),note=document.getElementById('fig-note');
+      if(!sel||!stage||!figs.length)return;
+      var COLORS=['#1e3a5f','#2563a8','#8aa9cf','#b5651d','#5b8a72'];
+      function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+      function fmt(v){return Number(v).toLocaleString('en-US',{maximumFractionDigits:2});}
+      function niceStep(r){var p=Math.pow(10,Math.floor(Math.log10(r))),f=r/p;return(f<=1?1:f<=2?2:f<=5?5:10)*p;}
+      function draw(f){
+        var W=720,H=380,m={l:58,r:16,t:14,b:58},cats=f.categories||[],S=f.series||[],n=cats.length,vals=[];
+        S.forEach(function(s){(s.values||[]).forEach(function(v){if(v!=null)vals.push(v);});});
+        var lo=Math.min(0,Math.min.apply(null,vals)),hi=Math.max.apply(null,vals);if(hi===lo)hi=lo+1;
+        var step=niceStep((hi-lo)/5);lo=Math.floor(lo/step)*step;hi=Math.ceil(hi/step)*step;
+        var iw=W-m.l-m.r,ih=H-m.t-m.b,band=iw/Math.max(n,1);
+        function Y(v){return m.t+ih*(1-(v-lo)/(hi-lo));}
+        function X(i){return m.l+band*(i+.5);}
+        var g='';
+        for(var v=lo;v<=hi+step/1e6;v+=step){g+='<line x1="'+m.l+'" x2="'+(W-m.r)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="#dde3ea"/><text x="'+(m.l-8)+'" y="'+(Y(v)+4)+'" text-anchor="end">'+fmt(v)+'</text>';}
+        cats.forEach(function(c,i){g+='<text x="'+X(i)+'" y="'+(H-m.b+18)+'" text-anchor="middle">'+esc(c)+'</text>';});
+        if(f.type==='bar'){
+          var gw=band*.7,bw=gw/S.length;
+          S.forEach(function(s,si){(s.values||[]).forEach(function(v,i){if(v==null)return;var x=m.l+band*i+(band-gw)/2+si*bw,y0=Y(0),y1=Y(v);
+            g+='<rect x="'+x+'" y="'+Math.min(y0,y1)+'" width="'+(bw-1)+'" height="'+Math.abs(y1-y0)+'" fill="'+COLORS[si%COLORS.length]+'"><title>'+esc(s.name)+' · '+esc(cats[i])+': '+fmt(v)+'</title></rect>';});});
+        }else{
+          S.forEach(function(s,si){var col=COLORS[si%COLORS.length],d='',pen=false;
+            (s.values||[]).forEach(function(v,i){if(v==null){pen=false;return;}d+=(pen?'L':'M')+X(i)+' '+Y(v);pen=true;});
+            g+='<path d="'+d+'" fill="none" stroke="'+col+'" stroke-width="2"/>';
+            (s.values||[]).forEach(function(v,i){if(v==null)return;g+='<circle cx="'+X(i)+'" cy="'+Y(v)+'" r="3.5" fill="'+col+'"><title>'+esc(s.name)+' · '+esc(cats[i])+': '+fmt(v)+'</title></circle>';});});
+        }
+        g+='<line x1="'+m.l+'" x2="'+(W-m.r)+'" y1="'+Y(Math.max(lo,0))+'" y2="'+Y(Math.max(lo,0))+'" stroke="#888"/>';
+        if(f.xLabel)g+='<text class="axis-title" x="'+(m.l+iw/2)+'" y="'+(H-8)+'" text-anchor="middle">'+esc(f.xLabel)+'</text>';
+        if(f.yLabel)g+='<text class="axis-title" transform="translate(14 '+(m.t+ih/2)+') rotate(-90)" text-anchor="middle">'+esc(f.yLabel)+'</text>';
+        var legend=S.length>1?'<div class="fig-legend">'+S.map(function(s,si){return '<span><i style="background:'+COLORS[si%COLORS.length]+'"></i>'+esc(s.name)+'</span>';}).join('')+'</div>':'';
+        return (f.title?'<p class="fig-title">'+esc(f.title)+'</p>':'')+legend+'<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(f.title||f.label)+'">'+g+'</svg>';
+      }
+      function render(){var f=figs[sel.selectedIndex];stage.innerHTML=draw(f);if(f.note){note.textContent=f.note;note.hidden=false;}else{note.hidden=true;}}
+      sel.innerHTML=figs.map(function(f){return '<option>'+esc(f.label||f.title)+'</option>';}).join('');
+      sel.disabled=false;sel.addEventListener('change',render);render();
+    })();
   </script>
 </body>
 </html>
