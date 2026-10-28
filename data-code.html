@@ -28,13 +28,13 @@
     .data-nav a:focus-visible { outline:2px solid var(--color-accent-lt); outline-offset:-2px; }
 
     .overview-intro { margin:0; }
-    .overview-intro p { max-width:720px; color:var(--color-muted); font-size:1.03rem; line-height:1.75; }
+    .overview-intro p { max-width:760px; color:var(--color-text); font-size:1rem; line-height:1.7; }
     .overview-intro p+p { margin-top:.9rem; }
 
     /* Sections, stacked */
-    .data-panel { margin-top:3.2rem; padding-top:2.6rem; border-top:1px solid var(--color-border); scroll-margin-top:calc(var(--nav-height) + 1.5rem); }
-    .data-panel h2 { margin:0 0 .6rem; color:var(--color-accent); font-size:1.2rem; letter-spacing:.015em; }
-    .section-lead { max-width:720px; margin-bottom:1.5rem; color:var(--color-muted); font-size:.95rem; line-height:1.7; }
+    .data-panel { margin-top:4.5rem; padding-top:0; scroll-margin-top:calc(var(--nav-height) + 1.5rem); }
+    .data-panel h2 { margin:0 0 1.3rem; padding-bottom:.55rem; border-bottom:2px solid var(--color-accent); color:var(--color-accent); font-size:1.05rem; letter-spacing:.08em; text-transform:uppercase; }
+    .section-lead { max-width:760px; margin-bottom:1.5rem; color:var(--color-text); font-size:1rem; line-height:1.7; }
 
     /* Descriptive table */
     .facts { width:100%; border-collapse:collapse; border-top:1px solid var(--color-border); }
@@ -311,7 +311,7 @@
     const sections=links.map(function(a){return document.getElementById(a.getAttribute('href').slice(1));});
     function setActive(id){links.forEach(function(a){const on=a.getAttribute('href')==='#'+id;a.classList.toggle('is-active',on);if(on)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current');});}
     function spy(){
-      const line=window.innerHeight*0.3;
+      const line=window.innerHeight*0.55;
       let current=sections[0].id;
       sections.forEach(function(s){if(s.getBoundingClientRect().top<=line)current=s.id;});
       if(window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-4)current=sections[sections.length-1].id;
