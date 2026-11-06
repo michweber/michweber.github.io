@@ -33,6 +33,26 @@
     .section-title { color: var(--color-accent); border-bottom-color: var(--color-accent); }
     .sidebar-links a { color: var(--color-muted); }
     .sidebar-links a:hover { color: var(--color-accent); }
+    .page-wrapper { grid-template-columns:190px minmax(0,1fr); gap:3rem; }
+    .main-content { padding-top:0; min-width:0; }
+    .research-side { top:calc(var(--nav-height) + 2rem); }
+    .research-side-title { margin-top:0; margin-bottom:.9rem; font-size:.95rem; }
+    .research-nav { display:flex; flex-direction:column; border-left:1px solid var(--color-border); }
+    .research-nav a { display:block; margin-left:-1px; padding:.5rem 0 .5rem 1rem; border-left:2px solid transparent; color:var(--color-muted); font-size:.9rem; font-weight:500; line-height:1.4; letter-spacing:.01em; text-decoration:none; transition:color .15s,border-color .15s,background .15s; }
+    .research-nav a:hover { color:var(--color-accent); background:rgba(30,58,95,.04); text-decoration:none; }
+    .research-nav a.is-active { border-left-color:var(--color-accent); color:var(--color-accent); font-weight:600; }
+    .research-nav a:focus-visible { outline:2px solid var(--color-accent-lt); outline-offset:-2px; }
+    details.section-group { scroll-margin-top:calc(var(--nav-height) + 1.5rem); }
+    @media (max-width:700px) {
+      .page-wrapper { display:block; padding-top:0; }
+      .research-side { display:block; text-align:left; position:sticky; top:var(--nav-height); z-index:20; margin:0 -1.2rem 1.4rem; padding:0 1.2rem; background:var(--color-bg); }
+      .research-side-title { display:none; }
+      .research-nav { flex-direction:row; gap:0 1.4rem; overflow-x:auto; scrollbar-width:none; border-left:0; border-bottom:1px solid var(--color-border); -webkit-mask-image:linear-gradient(90deg,#000 90%,transparent); mask-image:linear-gradient(90deg,#000 90%,transparent); padding-right:1.5rem; }
+      .research-nav::-webkit-scrollbar { display:none; }
+      .research-nav a { flex:0 0 auto; margin:0 0 -1px; padding:.8rem 0; border-left:0; border-bottom:2px solid transparent; white-space:nowrap; }
+      .research-nav a.is-active { border-bottom-color:var(--color-accent); }
+      details.section-group { scroll-margin-top:calc(var(--nav-height) + 3.6rem); }
+    }
   </style>
   <script src="bibtex_data.js"></script>
 <style>
@@ -137,7 +157,7 @@
       <li><a href="files/cv.pdf" target="_blank">CV</a></li>
       <li><a href="talks.html">Talks</a></li>
       <li><a href="media.html">Media</a></li>
-      <li><a href="blog.html">Blog</a></li>
+      <li><a href="https://esmt.berlin/knowledge?author=&amp;topics=938&amp;d=research_insights" target="_blank" rel="noopener">Blog</a></li>
       <a href="https://esmt.berlin/faculty-research/centers-institutes-initiatives/european-expectations-center-eec" target="_blank" rel="noopener">EEC</a>
     </ul>
     <button class="nav-hamburger" aria-label="Toggle navigation" onclick="this.closest('nav').querySelector('.nav-links').classList.toggle('open')">
@@ -157,11 +177,20 @@
     </div>
   </div>
 
-  <div class="page-wrapper no-sidebar">
+  <div class="page-wrapper">
+    <aside class="sidebar research-side">
+      <div class="section-title research-side-title">Research</div>
+      <nav class="research-nav" aria-label="Research sections">
+        <a href="#selected-works">Selected Works</a>
+        <a href="#working-papers">Working Papers</a>
+        <a href="#publications">Publications</a>
+        <a href="#other-publications">Other Publications</a>
+      </nav>
+    </aside>
     <main class="main-content">
 
       <!-- ══ SELECTED WORKS ════════════════════════════════════ -->
-      <details class="section-group" open>
+      <details class="section-group" id="selected-works" open>
         <summary class="section-summary">
           <span class="summary-left">Selected Works <span class="paper-count">7</span></span>
         </summary>
@@ -256,7 +285,7 @@
       </details>
 
       <!-- ══ WORKING PAPERS ════════════════════════════════════ -->
-      <details class="section-group" open>
+      <details class="section-group" id="working-papers" open>
         <summary class="section-summary">
           <span class="summary-left">Working Papers <span class="paper-count">30</span></span>
         </summary>
@@ -568,7 +597,7 @@
       </details>
 
       <!-- ══ PUBLICATIONS ══════════════════════════════════════ -->
-      <details class="section-group" open>
+      <details class="section-group" id="publications" open>
         <summary class="section-summary">
           <span class="summary-left">Publications <span class="paper-count">37</span></span>
         </summary>
@@ -993,7 +1022,7 @@
       </details>
 
       <!-- ══ OTHER PUBLICATIONS ════════════════════════════════ -->
-      <details class="section-group">
+      <details class="section-group" id="other-publications" open>
         <summary class="section-summary">
           <span class="summary-left">Other Publications <span class="paper-count">11</span></span>
         </summary>
@@ -1091,6 +1120,47 @@
   </script>
 
   <script>
+    const researchLinks = Array.from(document.querySelectorAll('.research-nav a'));
+    const researchSections = researchLinks.map(function(a) {
+      return document.getElementById(a.getAttribute('href').slice(1));
+    });
+    function setActiveResearchSection(id) {
+      researchLinks.forEach(function(a) {
+        const active = a.getAttribute('href') === '#' + id;
+        a.classList.toggle('is-active', active);
+        if (active) a.setAttribute('aria-current', 'true');
+        else a.removeAttribute('aria-current');
+      });
+    }
+    function updateResearchNavigation() {
+      const line = window.innerHeight * 0.55;
+      let current = researchSections[0].id;
+      researchSections.forEach(function(section) {
+        if (section.getBoundingClientRect().top <= line) current = section.id;
+      });
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+        current = researchSections[researchSections.length - 1].id;
+      }
+      setActiveResearchSection(current);
+    }
+    let researchNavigationTicking = false;
+    window.addEventListener('scroll', function() {
+      if (!researchNavigationTicking) {
+        researchNavigationTicking = true;
+        requestAnimationFrame(function() {
+          updateResearchNavigation();
+          researchNavigationTicking = false;
+        });
+      }
+    }, {passive:true});
+    window.addEventListener('resize', updateResearchNavigation);
+    researchLinks.forEach(function(a) {
+      a.addEventListener('click', function() {
+        setActiveResearchSection(a.getAttribute('href').slice(1));
+      });
+    });
+    updateResearchNavigation();
+
     document.querySelectorAll('.nav-links a').forEach(function(a) {
       a.addEventListener('click', function() {
         document.querySelector('.nav-links').classList.remove('open');
