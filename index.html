@@ -17,7 +17,7 @@
   <title>Michael Weber | Finance</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600&family=Spectral:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">  
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600&family=Spectral:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2">
   <style>
@@ -136,6 +136,56 @@
       color: var(--color-text);
       margin-bottom: 1rem;
     }
+
+    .recent-updates {
+      margin-top: 1rem;
+    }
+
+    .update-entry {
+      display: grid;
+      grid-template-columns: 6.5rem 1fr;
+      gap: 1rem;
+      align-items: center;
+      padding: 0.8rem 0;
+    }
+
+    .update-meta {
+      color: var(--color-accent-lt);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      line-height: 1.7;
+      text-transform: uppercase;
+    }
+
+    .update-meta span {
+      display: block;
+      color: var(--color-subtle);
+    }
+
+    .update-title {
+      margin: 0;
+      color: var(--color-text);
+      font-family: var(--font-sans);
+      font-size: 0.93rem;
+      font-weight: 500;
+      line-height: 1.45;
+    }
+
+    .update-title a {
+      color: #1e5799;
+    }
+
+    .update-title a:hover {
+      color: var(--color-accent);
+    }
+
+    @media (max-width: 700px) {
+      .update-entry {
+        grid-template-columns: 1fr;
+        gap: 0.2rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -150,8 +200,8 @@
       <li><a href="files/cv.pdf" target="_blank">CV</a></li>
       <li><a href="talks.html">Talks</a></li>
       <li><a href="media.html">Media</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <a href="https://esmt.berlin/faculty-research/centers-institutes-initiatives/european-expectations-center-eec" target="_blank" rel="noopener">EEC</a>
+      <li><a href="https://esmt.berlin/knowledge?author=&amp;topics=938&amp;d=research_insights" target="_blank" rel="noopener">Blog</a></li>
+      <li><a href="https://esmt.berlin/faculty-research/centers-institutes-initiatives/european-expectations-center-eec" target="_blank" rel="noopener">EEC</a></li>
     </ul>
     <button class="nav-hamburger" aria-label="Toggle navigation" onclick="this.closest('nav').querySelector('.nav-links').classList.toggle('open')">
       <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
@@ -228,7 +278,12 @@
       </p>
 
       <div class="section-title">Recent Updates</div>
-      <p style="color: var(--color-muted); font-size: 0.93rem; padding: 1rem 0;">Soon.</p>
+      <div class="recent-updates">
+        <article class="update-entry">
+          <div class="update-meta">Nov 2026<span>Blog post</span></div>
+          <p class="update-title"><a href="https://esmt.berlin/knowledge/research-insights/inflation-expectations-how-they-are-formed-why-they-matter-and-how-we" target="_blank" rel="noopener">Inflation expectations: How they are formed, why they matter, and how we measure them</a></p>
+        </article>
+      </div>
 
     </main>
   </div>
