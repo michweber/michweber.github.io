@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BGBCS4K3F3"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-  
-    gtag('config', 'G-BGBCS4K3F3');
-  </script>
-  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Media — Michael Weber, Professor of Finance at Purdue University and ESMT Berlin.">
@@ -18,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600&family=Spectral:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">  
+  <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
   <style>
@@ -30,6 +20,16 @@
     }
     .nav-links a { color: var(--color-muted); }
     .nav-links a:hover, .nav-links a.active { color: var(--color-accent); }
+    .section-title { color:var(--color-accent); border-bottom-color:var(--color-accent); }
+    .page-wrapper { grid-template-columns:190px minmax(0,1fr); gap:3rem; }
+    .main-content { padding-top:0; min-width:0; }
+    .media-side { top:calc(var(--nav-height) + 2rem); }
+    .media-side-title { margin-top:0; margin-bottom:.9rem; font-size:.95rem; }
+    .media-nav { display:flex; flex-direction:column; border-left:1px solid var(--color-border); }
+    .media-nav a { display:block; margin-left:-1px; padding:.5rem 0 .5rem 1rem; border-left:2px solid transparent; color:var(--color-muted); font-size:.9rem; font-weight:500; line-height:1.4; letter-spacing:.01em; text-decoration:none; transition:color .15s,border-color .15s,background .15s; }
+    .media-nav a:hover { color:var(--color-accent); background:rgba(30,58,95,.04); text-decoration:none; }
+    .media-nav a.is-active { border-left-color:var(--color-accent); color:var(--color-accent); font-weight:600; }
+    .media-nav a:focus-visible { outline:2px solid var(--color-accent-lt); outline-offset:-2px; }
     details.media-section { margin-bottom: 2rem; }
     details.media-section > summary {
       display: flex; align-items: center; justify-content: space-between;
@@ -64,6 +64,17 @@
     .media-title a:hover { color: var(--color-accent); text-decoration: underline; }
     .media-outlet { font-size: 0.85rem; color: var(--color-muted); font-style: italic; }
     .media-date { font-size: 0.78rem; font-family: var(--font-mono); color: var(--color-subtle); white-space: nowrap; letter-spacing: 0.02em; }
+    details.media-section { scroll-margin-top:calc(var(--nav-height) + 1.5rem); }
+    @media (max-width:700px) {
+      .page-wrapper { display:block; padding-top:0; }
+      .media-side { display:block; text-align:left; position:sticky; top:var(--nav-height); z-index:20; margin:0 -1.2rem 1.4rem; padding:0 1.2rem; background:var(--color-bg); }
+      .media-side-title { display:none; }
+      .media-nav { flex-direction:row; gap:0 1.4rem; overflow-x:auto; scrollbar-width:none; border-left:0; border-bottom:1px solid var(--color-border); -webkit-mask-image:linear-gradient(90deg,#000 90%,transparent); mask-image:linear-gradient(90deg,#000 90%,transparent); padding-right:1.5rem; }
+      .media-nav::-webkit-scrollbar { display:none; }
+      .media-nav a { flex:0 0 auto; margin:0 0 -1px; padding:.8rem 0; border-left:0; border-bottom:2px solid transparent; white-space:nowrap; }
+      .media-nav a.is-active { border-bottom-color:var(--color-accent); }
+      details.media-section { scroll-margin-top:calc(var(--nav-height) + 3.6rem); }
+    }
   </style>
 </head>
 
@@ -79,8 +90,8 @@
       <li><a href="files/cv.pdf" target="_blank">CV</a></li>
       <li><a href="talks.html">Talks</a></li>
       <li><a href="media.html" class="active">Media</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <a href="https://esmt.berlin/faculty-research/centers-institutes-initiatives/european-expectations-center-eec" target="_blank" rel="noopener">EEC</a>
+      <li><a href="https://esmt.berlin/knowledge?author=&amp;topics=938&amp;d=research_insights" target="_blank" rel="noopener">Blog</a></li>
+      <li><a href="https://esmt.berlin/faculty-research/centers-institutes-initiatives/european-expectations-center-eec" target="_blank" rel="noopener">EEC</a></li>
     </ul>
     <button class="nav-hamburger" aria-label="Toggle navigation" onclick="this.closest('nav').querySelector('.nav-links').classList.toggle('open')">
       <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
@@ -88,94 +99,21 @@
       </div>
   </nav>
 
-  <div class="page-wrapper no-sidebar">
+  <div class="page-wrapper">
+    <aside class="sidebar media-side">
+      <div class="section-title media-side-title">Media</div>
+      <nav class="media-nav" aria-label="Media sections">
+        <a href="#media-mentions">Media Mentions</a>
+        <a href="#policy-mentions">Policy Mentions</a>
+      </nav>
+    </aside>
     <main class="main-content">
 
-      <details class="media-section" open>
+      <details class="media-section" id="media-mentions" open>
         <summary>Media Mentions</summary>
         <ul class="media-list">
 
 
-          <li class="media-item">
-          <div class="media-left">
-            <div class="media-title"><a href="https://www.newsweek.com/heres-how-much-more-your-labor-day-bbq-will-cost-this-year-12405985" target="_blank">Here’s How Much More Your Labor Day BBQ Will Cost This Year</a></div>
-            <div class="media-outlet">Newsweek</div>
-          </div>
-          <div class="media-date">9/5/2026</div>
-        </li>
-          
-          <li class="media-item">
-          <div class="media-left">
-            <div class="media-title"><a href="https://www.boersen-zeitung.de/meinung-analyse/warum-die-geldpolitik-gerne-mit-am-kuechentisch-sitzen-wuerde" target="_blank">Warum die Geldpolitik gerne mit am Küchentisch sitzen würde</a></div>
-            <div class="media-outlet">Börsenzeitung</div>
-          </div>
-          <div class="media-date">9/2/2026</div>
-        </li>
-          
-          <li class="media-item">
-          <div class="media-left">
-            <div class="media-title"><a href="https://table.media/ceo/ceo-picks/konsumrueckgang-beginnt-im-kopf" target="_blank">Konsumrückgang beginnt im Kopf</a></div>
-            <div class="media-outlet">CEO.Table</div>
-          </div>
-          <div class="media-date">8/26/2026</div>
-        </li>
-          
-          <li class="media-item">
-          <div class="media-left">
-            <div class="media-title"><a href="https://www.aol.ca/articles/fed-study-reveals-americans-view-163415000.html" target="_blank">Fed study reveals how some Americans view risk differently</a></div>
-            <div class="media-outlet">AOL</div>
-          </div>
-          <div class="media-date">8/24/2026</div>
-        </li>
-          
-          <li class="media-item">
-          <div class="media-left">
-            <div class="media-title"><a href="https://www.newsweek.com/warsh-economy-impressive-resilience-americans-disagree-12264799" target="_blank">Warsh Says Economy Showing ‘Impressive Resilience’—Most Americans Disagree</a></div>
-            <div class="media-outlet">Newsweek</div>
-          </div>
-          <div class="media-date">7/30/2026</div>
-        </li>
-          
-          <li class="media-item">
-          <div class="media-left">
-            <div class="media-title"><a href="https://www.cnbc.com/2026/07/02/trump-biden-student-loan-debt-forgiveness.html" target="_blank">How high hopes for Biden’s student-loan forgiveness plans cost borrowers</a></div>
-            <div class="media-outlet">CNBC</div>
-          </div>
-          <div class="media-date">7/2/2026</div>
-        </li>
-          
-          <li class="media-item">
-          <div class="media-left">
-            <div class="media-title"><a href="https://www.newsweek.com/trump-touts-best-economy-data-shows-12102055" target="_blank">Trump Touts ‘Best Economy Ever.’ What the Data Shows</a></div>
-            <div class="media-outlet">Newsweek</div>
-          </div>
-          <div class="media-date">6/22/2026</div>
-        </li>
-          
-          <li class="media-item">
-          <div class="media-left">
-            <div class="media-title"><a href="https://fortune.com/2026/06/17/bidens-flip-flopping-student-loan-borrowers-increase-discretionary-spending-default/" target="_blank">Biden’s flip-flopping on student loan promises made borrowers increase discretionary spending, and were 7.5% more likely to default as a result</a></div>
-            <div class="media-outlet">Fortune</div>
-          </div>
-          <div class="media-date">6/17/2026</div>
-        </li>
-          
-          <li class="media-item">
-          <div class="media-left">
-            <div class="media-title"><a href="https://www.wiwo.de/politik/konjunktur/ezb-zinsentscheid-heute-kampf-gegen-inflation-oekonom-warnt-vor-45-prozent/100231507.html" target="_blank">EZB vor der Zinswende – warum die Notenbank die Reißleine ziehen dürfte</a></div>
-            <div class="media-outlet">Wirtschaftswoche</div>
-          </div>
-          <div class="media-date">6/11/2026</div>
-        </li>
-
-          <li class="media-item">
-          <div class="media-left">
-            <div class="media-title"><a href="https://www.newsweek.com/us-economy-is-looking-stronger-but-americans-dont-agree-12055486" target="_blank">US Economy Is Looking Stronger, but Americans Don’t Agree</a></div>
-            <div class="media-outlet">Newsweek</div>
-          </div>
-          <div class="media-date">6/10/2026</div>
-        </li>
-          
         <li class="media-item">
           <div class="media-left">
             <div class="media-title"><a href="https://www.wsj.com/personal-finance/surcharges-are-suddenly-everywhereand-grumpy-americans-are-paying-up-d5cb0e32?st=M8Ggwf" target="_blank">Surcharges Are Suddenly Everywhere—And Grumpy Americans Are Paying Up</a></div>
@@ -490,7 +428,7 @@
 
         <li class="media-item">
           <div class="media-left">
-            <div class="media-title"><a href="https://www.washingtonpost.com/business/2022/02/13/low-income-high-inflation-inequality/" target="_blank">Survival Mode: Inflation falls hardest on low-income Americans</a></div>
+            <div class="media-title"><a href="https://www.washingtonpost.com/business/2022/02/13/low-income-high-inflation-inequality/" target="_blank">https://www.washingtonpost.com/business/2022/02/13/low-income-high-inflation-inequality/</a></div>
             <div class="media-outlet">Washington Post</div>
           </div>
           <div class="media-date">2/13/2022</div>
@@ -1671,7 +1609,7 @@
         </ul>
       </details>
 
-      <details class="media-section">
+      <details class="media-section" id="policy-mentions" open>
         <summary>Policy Mentions</summary>
         <ul class="media-list">
 
@@ -1893,6 +1831,47 @@
 </footer>
 
   <script>
+    const mediaLinks = Array.from(document.querySelectorAll('.media-nav a'));
+    const mediaSections = mediaLinks.map(function(a) {
+      return document.getElementById(a.getAttribute('href').slice(1));
+    });
+    function setActiveMediaSection(id) {
+      mediaLinks.forEach(function(a) {
+        const active = a.getAttribute('href') === '#' + id;
+        a.classList.toggle('is-active', active);
+        if (active) a.setAttribute('aria-current', 'true');
+        else a.removeAttribute('aria-current');
+      });
+    }
+    function updateMediaNavigation() {
+      const line = window.innerHeight * 0.55;
+      let current = mediaSections[0].id;
+      mediaSections.forEach(function(section) {
+        if (section.getBoundingClientRect().top <= line) current = section.id;
+      });
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+        current = mediaSections[mediaSections.length - 1].id;
+      }
+      setActiveMediaSection(current);
+    }
+    let mediaNavigationTicking = false;
+    window.addEventListener('scroll', function() {
+      if (!mediaNavigationTicking) {
+        mediaNavigationTicking = true;
+        requestAnimationFrame(function() {
+          updateMediaNavigation();
+          mediaNavigationTicking = false;
+        });
+      }
+    }, {passive:true});
+    window.addEventListener('resize', updateMediaNavigation);
+    mediaLinks.forEach(function(a) {
+      a.addEventListener('click', function() {
+        setActiveMediaSection(a.getAttribute('href').slice(1));
+      });
+    });
+    updateMediaNavigation();
+
     document.querySelectorAll('.nav-links a').forEach(function(a) {
       a.addEventListener('click', function() {
         document.querySelector('.nav-links').classList.remove('open');
