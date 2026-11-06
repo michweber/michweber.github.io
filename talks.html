@@ -1,23 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BGBCS4K3F3"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-  
-    gtag('config', 'G-BGBCS4K3F3');
-  </script>
-  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Talks | Michael Weber</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600&family=Spectral:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">  
+  <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <style>
     :root {
@@ -32,6 +22,26 @@
     .section-title { color: var(--color-accent); border-bottom-color: var(--color-accent); }
     .sidebar-links a { color: var(--color-muted); }
     .sidebar-links a:hover { color: var(--color-accent); }
+    .page-wrapper { grid-template-columns:190px minmax(0,1fr); gap:3rem; }
+    .main-content { padding-top:0; min-width:0; }
+    .talks-side { top:calc(var(--nav-height) + 2rem); max-height:calc(100vh - var(--nav-height) - 3rem); overflow-y:auto; }
+    .talks-side-title { margin-top:0; margin-bottom:.9rem; font-size:.95rem; }
+    .talks-nav { display:flex; flex-direction:column; border-left:1px solid var(--color-border); }
+    .talks-nav a { display:block; margin-left:-1px; padding:.38rem 0 .38rem 1rem; border-left:2px solid transparent; color:var(--color-muted); font-size:.9rem; font-weight:500; line-height:1.4; letter-spacing:.01em; text-decoration:none; transition:color .15s,border-color .15s,background .15s; }
+    .talks-nav a:hover { color:var(--color-accent); background:rgba(30,58,95,.04); text-decoration:none; }
+    .talks-nav a.is-active { border-left-color:var(--color-accent); color:var(--color-accent); font-weight:600; }
+    .talks-nav a:focus-visible { outline:2px solid var(--color-accent-lt); outline-offset:-2px; }
+    details.year-group { scroll-margin-top:calc(var(--nav-height) + 1.5rem); }
+    @media (max-width:700px) {
+      .page-wrapper { display:block; padding-top:0; }
+      .talks-side { display:block; text-align:left; position:sticky; top:var(--nav-height); z-index:20; max-height:none; overflow:visible; margin:0 -1.2rem 1.4rem; padding:0 1.2rem; background:var(--color-bg); }
+      .talks-side-title { display:none; }
+      .talks-nav { flex-direction:row; gap:0 1.4rem; overflow-x:auto; scrollbar-width:none; border-left:0; border-bottom:1px solid var(--color-border); -webkit-mask-image:linear-gradient(90deg,#000 90%,transparent); mask-image:linear-gradient(90deg,#000 90%,transparent); padding-right:1.5rem; }
+      .talks-nav::-webkit-scrollbar { display:none; }
+      .talks-nav a { flex:0 0 auto; margin:0 0 -1px; padding:.8rem 0; border-left:0; border-bottom:2px solid transparent; white-space:nowrap; }
+      .talks-nav a.is-active { border-bottom-color:var(--color-accent); }
+      details.year-group { scroll-margin-top:calc(var(--nav-height) + 3.6rem); }
+    }
   </style>
   <style>
     /* Year-level collapsible — styled like section title */
@@ -97,8 +107,8 @@
       <li><a href="files/cv.pdf" target="_blank">CV</a></li>
       <li><a href="talks.html" class="active">Talks</a></li>
       <li><a href="media.html">Media</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <a href="https://esmt.berlin/faculty-research/centers-institutes-initiatives/european-expectations-center-eec" target="_blank" rel="noopener">EEC</a>                    
+      <li><a href="https://esmt.berlin/knowledge?author=&amp;topics=938&amp;d=research_insights" target="_blank" rel="noopener">Blog</a></li>
+      <li><a href="https://esmt.berlin/faculty-research/centers-institutes-initiatives/european-expectations-center-eec" target="_blank" rel="noopener">EEC</a></li>
     </ul>
     <button class="nav-hamburger" aria-label="Toggle navigation" onclick="this.closest('nav').querySelector('.nav-links').classList.toggle('open')">
       <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
@@ -106,13 +116,36 @@
       </div>
   </nav>
 
-  <div class="page-wrapper no-sidebar">
+  <div class="page-wrapper">
+    <aside class="sidebar talks-side">
+      <div class="section-title talks-side-title">Talks</div>
+      <nav class="talks-nav" aria-label="Talks by year">
+        <a href="#talks-2027">2027</a>
+        <a href="#talks-2026">2026</a>
+        <a href="#talks-2025">2025</a>
+        <a href="#talks-2024">2024</a>
+        <a href="#talks-2023">2023</a>
+        <a href="#talks-2022">2022</a>
+        <a href="#talks-2021">2021</a>
+        <a href="#talks-2020">2020</a>
+        <a href="#talks-2019">2019</a>
+        <a href="#talks-2018">2018</a>
+        <a href="#talks-2017">2017</a>
+        <a href="#talks-2016">2016</a>
+        <a href="#talks-2015">2015</a>
+        <a href="#talks-2014">2014</a>
+        <a href="#talks-2013">2013</a>
+        <a href="#talks-2012">2012</a>
+        <a href="#talks-2010">2010</a>
+        <a href="#talks-2009">2009</a>
+      </nav>
+    </aside>
     <main class="main-content">
 
       <p class="talks-note"><span class="coauthor-note">* indicates presentation by co-author.</span> Years marked "includes scheduled" reflect confirmed future appearances.</p>
 
       <!-- ══ 2027 ══════════════════════════════════════════════ -->
-      <details class="year-group" open>
+      <details class="year-group" id="talks-2027" open>
         <summary class="year-summary">2027 <span style="font-size:0.7rem;font-family:var(--font-sans);font-weight:400;letter-spacing:0">(includes scheduled)</span></summary>
         <details class="cat-group" open>
           <summary class="cat-summary">Seminars</summary>
@@ -123,7 +156,7 @@
       </details>
 
       <!-- ══ 2026 ══════════════════════════════════════════════ -->
-      <details class="year-group" open>
+      <details class="year-group" id="talks-2026" open>
         <summary class="year-summary">2026 <span style="font-size:0.7rem;font-family:var(--font-sans);font-weight:400;letter-spacing:0">(includes scheduled)</span></summary>
 
         <details class="cat-group" open>
@@ -182,7 +215,7 @@
       </details>
 
       <!-- ══ 2025 ══════════════════════════════════════════════ -->
-      <details class="year-group">
+      <details class="year-group" id="talks-2025">
         <summary class="year-summary">2025 </summary>
 
         <details class="cat-group">
@@ -265,7 +298,7 @@
       </details>
 
       <!-- ══ 2024 ══════════════════════════════════════════════ -->
-      <details class="year-group">
+      <details class="year-group" id="talks-2024">
         <summary class="year-summary">2024</summary>
 
         <details class="cat-group">
@@ -349,7 +382,7 @@
       </details>
 
       <!-- ══ 2023 ══════════════════════════════════════════════ -->
-      <details class="year-group">
+      <details class="year-group" id="talks-2023">
         <summary class="year-summary">2023</summary>
 
         <details class="cat-group">
@@ -448,7 +481,7 @@
       </details>
 
       <!-- ══ 2022 ══════════════════════════════════════════════ -->
-      <details class="year-group">
+      <details class="year-group" id="talks-2022">
         <summary class="year-summary">2022</summary>
 
         <details class="cat-group">
@@ -556,7 +589,7 @@
       </details>
 
       <!-- ══ 2021 ══════════════════════════════════════════════ -->
-      <details class="year-group">
+      <details class="year-group" id="talks-2021">
         <summary class="year-summary">2021</summary>
 
         <details class="cat-group">
@@ -628,7 +661,7 @@
       </details>
 
       <!-- ══ 2020 ══════════════════════════════════════════════ -->
-      <details class="year-group">
+      <details class="year-group" id="talks-2020">
         <summary class="year-summary">2020</summary>
 
         <details class="cat-group">
@@ -698,7 +731,7 @@
       </details>
 
       <!-- ══ 2019 ══════════════════════════════════════════════ -->
-      <details class="year-group">
+      <details class="year-group" id="talks-2019">
         <summary class="year-summary">2019</summary>
 
         <details class="cat-group">
@@ -795,7 +828,7 @@
       </details>
 
       <!-- ══ 2018 ══════════════════════════════════════════════ -->
-      <details class="year-group">
+      <details class="year-group" id="talks-2018">
         <summary class="year-summary">2018</summary>
 
         <details class="cat-group">
@@ -862,7 +895,7 @@
       </details>
 
       <!-- ══ 2017 ══════════════════════════════════════════════ -->
-      <details class="year-group">
+      <details class="year-group" id="talks-2017">
         <summary class="year-summary">2017</summary>
 
         <details class="cat-group">
@@ -932,7 +965,7 @@
       </details>
 
       <!-- ══ 2016 ══════════════════════════════════════════════ -->
-      <details class="year-group">
+      <details class="year-group" id="talks-2016">
         <summary class="year-summary">2016</summary>
 
         <details class="cat-group">
@@ -1012,7 +1045,7 @@
       </details>
 
       <!-- ══ 2015 ══════════════════════════════════════════════ -->
-      <details class="year-group">
+      <details class="year-group" id="talks-2015">
         <summary class="year-summary">2015</summary>
 
         <details class="cat-group">
@@ -1077,7 +1110,7 @@
       </details>
 
       <!-- ══ 2014 ══════════════════════════════════════════════ -->
-      <details class="year-group">
+      <details class="year-group" id="talks-2014">
         <summary class="year-summary">2014</summary>
 
         <details class="cat-group">
@@ -1140,7 +1173,7 @@
       </details>
 
       <!-- ══ 2013 ══════════════════════════════════════════════ -->
-      <details class="year-group">
+      <details class="year-group" id="talks-2013">
         <summary class="year-summary">2013</summary>
 
         <details class="cat-group">
@@ -1174,7 +1207,7 @@
       </details>
 
       <!-- ══ 2012 ══════════════════════════════════════════════ -->
-      <details class="year-group">
+      <details class="year-group" id="talks-2012">
         <summary class="year-summary">2012</summary>
 
         <details class="cat-group">
@@ -1198,7 +1231,7 @@
       </details>
 
       <!-- ══ 2010 ══════════════════════════════════════════════ -->
-      <details class="year-group">
+      <details class="year-group" id="talks-2010">
         <summary class="year-summary">2010</summary>
 
         <details class="cat-group">
@@ -1217,7 +1250,7 @@
       </details>
 
       <!-- ══ 2009 ══════════════════════════════════════════════ -->
-      <details class="year-group">
+      <details class="year-group" id="talks-2009">
         <summary class="year-summary">2009</summary>
 
         <details class="cat-group">
@@ -1236,6 +1269,47 @@
   </footer>
 
   <script>
+    const talksLinks = Array.from(document.querySelectorAll('.talks-nav a'));
+    const talksSections = talksLinks.map(function(a) {
+      return document.getElementById(a.getAttribute('href').slice(1));
+    });
+    function setActiveTalksSection(id) {
+      talksLinks.forEach(function(a) {
+        const active = a.getAttribute('href') === '#' + id;
+        a.classList.toggle('is-active', active);
+        if (active) a.setAttribute('aria-current', 'true');
+        else a.removeAttribute('aria-current');
+      });
+    }
+    function updateTalksNavigation() {
+      const line = window.innerHeight * 0.55;
+      let current = talksSections[0].id;
+      talksSections.forEach(function(section) {
+        if (section.getBoundingClientRect().top <= line) current = section.id;
+      });
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+        current = talksSections[talksSections.length - 1].id;
+      }
+      setActiveTalksSection(current);
+    }
+    let talksNavigationTicking = false;
+    window.addEventListener('scroll', function() {
+      if (!talksNavigationTicking) {
+        talksNavigationTicking = true;
+        requestAnimationFrame(function() {
+          updateTalksNavigation();
+          talksNavigationTicking = false;
+        });
+      }
+    }, {passive:true});
+    window.addEventListener('resize', updateTalksNavigation);
+    talksLinks.forEach(function(a) {
+      a.addEventListener('click', function() {
+        setActiveTalksSection(a.getAttribute('href').slice(1));
+      });
+    });
+    updateTalksNavigation();
+
     document.querySelectorAll('.nav-links a').forEach(function(a) {
       a.addEventListener('click', function() {
         document.querySelector('.nav-links').classList.remove('open');
