@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BGBCS4K3F3"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-  
-    gtag('config', 'G-BGBCS4K3F3');
-  </script>
-  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Data and code behind Michael Weber's research: NielsenIQ survey experiments, the EEC-BIS Global Subjective Expectations Survey, and replication material from other projects.">
@@ -43,7 +33,11 @@
 
     /* Sections, stacked */
     .data-panel { margin-top:4.5rem; padding-top:0; scroll-margin-top:calc(var(--nav-height) + 1.5rem); }
-    .data-panel h2 { margin:0 0 1.3rem; padding-bottom:.55rem; border-bottom:2px solid var(--color-accent); color:var(--color-accent); font-size:1.05rem; letter-spacing:.08em; text-transform:uppercase; }
+    .data-panel > summary.data-summary { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin:0 0 1.3rem; padding-bottom:.55rem; border-bottom:2px solid var(--color-accent); color:var(--color-accent); font-family:var(--font-serif); font-size:1.05rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; cursor:pointer; list-style:none; user-select:none; }
+    .data-panel > summary.data-summary::-webkit-details-marker { display:none; }
+    .data-panel > summary.data-summary:hover { color:var(--color-accent-lt); }
+    .data-panel > summary.data-summary::after { content:''; display:inline-block; width:8px; height:8px; border-right:2px solid var(--color-accent); border-bottom:2px solid var(--color-accent); transform:rotate(45deg); transition:transform .2s; flex-shrink:0; }
+    .data-panel[open] > summary.data-summary::after { transform:rotate(-135deg); }
     .section-lead { max-width:760px; margin-bottom:1.5rem; color:var(--color-text); font-size:1rem; line-height:1.7; }
 
     /* Descriptive table */
@@ -127,13 +121,14 @@
       .facts th { padding-bottom:.2rem; }
     }
   </style>
+  <link rel="stylesheet" href="data &amp; code/nielsen-interactive/interactive-inflation-chart.css">
   </head>
 <body>
   <nav class="site-nav">
     <div class="nav-inner">
       <a href="index.html" class="nav-brand">Michael Weber</a>
       <ul class="nav-links">
-        <li><a href="index.html">Home</a></li><li><a href="research.html">Research</a></li><li><a href="data-code.html" class="active">Data &amp; Code</a></li><li><a href="files/cv.pdf" target="_blank">CV</a></li><li><a href="talks.html">Talks</a></li><li><a href="media.html">Media</a></li><li><a href="blog.html">Blog</a></li><li><a href="https://esmt.berlin/faculty-research/centers-institutes-initiatives/european-expectations-center-eec" target="_blank" rel="noopener">EEC</a></li>
+        <li><a href="index.html">Home</a></li><li><a href="research.html">Research</a></li><li><a href="data-code.html" class="active">Data &amp; Code</a></li><li><a href="files/cv.pdf" target="_blank">CV</a></li><li><a href="talks.html">Talks</a></li><li><a href="media.html">Media</a></li><li><a href="https://esmt.berlin/knowledge?author=&amp;topics=938&amp;d=research_insights" target="_blank" rel="noopener">Blog</a></li><li><a href="https://esmt.berlin/faculty-research/centers-institutes-initiatives/european-expectations-center-eec" target="_blank" rel="noopener">EEC</a></li>
       </ul>
       <button class="nav-hamburger" aria-label="Toggle navigation" aria-expanded="false"><svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
     </div>
@@ -157,8 +152,8 @@
 
         
 
-        <section class="data-panel" id="homescan">
-          <h2>Customized NielsenIQ Surveys</h2>
+        <details class="data-panel" id="homescan" open>
+          <summary class="data-summary">Customized NielsenIQ Surveys</summary>
           <p class="section-lead">Since 2015, customized surveys have been fielded to the NielsenIQ consumer (Homescan) panel, a U.S. household panel that records purchases by scanning them at home. The surveys combine households&rsquo; stated expectations, their scanned purchases and the prices they paid, and randomized information treatments, which allows the analysis to move from correlation to causation.</p>
           <table class="facts">
             <tbody>
@@ -210,23 +205,29 @@
 
           <h3 class="sub-title">Figures and latest results</h3>
           <p class="waves-intro">Selected survey results, including more recent waves whose data are not yet available upon request. The figures are updated as new waves are completed.</p>
-          <!-- Figure explorer. To add figures, fill the JSON block below. Each figure:
-               {"id":"unique","label":"Menu text","title":"Chart title","type":"line" or "bar",
-                 "xLabel":"","yLabel":"","categories":["Wave 1","Wave 2"],
-                 "series":[{"name":"Series name","values":[1.2,3.4]}],"note":"Optional note or source"} -->
           <div class="fig-explorer" id="fig-explorer">
             <div class="fig-controls">
-              <label for="fig-select">Show</label>
-              <select id="fig-select" disabled><option>Figures coming soon</option></select>
+              <div class="fig-control">
+                <label for="fig-measure">Measure</label>
+                <select id="fig-measure" disabled><option>Loading measures&hellip;</option></select>
+              </div>
+              <div class="fig-control">
+                <label for="fig-profile">Respondent profile</label>
+                <select id="fig-profile" disabled><option>Loading profiles&hellip;</option></select>
+              </div>
+              <div class="fig-control fig-control--summary">
+                <label for="fig-summary">Summary</label>
+                <select id="fig-summary" disabled><option value="mean">Mean</option><option value="median">Median</option></select>
+              </div>
             </div>
-            <div class="fig-stage" id="fig-stage"><div class="fig-empty">Select a measure from the menu to display the figure. Figures from the NielsenIQ surveys will appear here.</div></div>
+            <div class="fig-stage" id="fig-stage"><div class="interactive-chart-loading">Loading interactive survey figures&hellip;</div></div>
             <p class="table-note" id="fig-note" hidden></p>
           </div>
           <script type="application/json" id="nielsen-figures-data">[]</script>
-        </section>
+        </details>
 
-        <section class="data-panel" id="global-survey">
-          <h2>EEC-BIS Global Subjective Expectations Survey (GSES)</h2>
+        <details class="data-panel" id="global-survey" open>
+          <summary class="data-summary">EEC-BIS Global Subjective Expectations Survey (GSES)</summary>
           <p class="section-lead">Launched in 2025, this annual survey provides comparable evidence on households’ economic expectations across advanced and emerging economies. Its harmonized questionnaire enables cross-country comparisons of inflation expectations, perceptions of prices and wages, central bank knowledge, and information sources, while rotating special modules allow the survey to explore emerging economic questions. The survey is conducted by the European Expectations Center (EEC) in collaboration with the Bank for International Settlements (BIS). More data will be shared here soon.</p>
           <table class="facts">
             <tbody>
@@ -248,18 +249,21 @@
           </table>
 
           <h3 class="sub-title">Data access and questionnaires</h3>
-          <p class="waves-intro">Data and questionnaires will be shared here soon.</p>
+          <div class="access-note access-first">
+            <strong>Requesting access</strong>
+            Access to the data can be requested through the form below. Requests are reviewed individually, and approved applicants receive a link to the data by email. <a href="https://forms.cloud.microsoft/e/7n9JiVY7GL?embed=true" target="_blank" rel="noopener">Open the data access request form<span aria-hidden="true"> &#8599;</span></a>
+          </div>
           <table class="waves">
             <thead><tr><th scope="col">Wave</th><th scope="col">Fielded</th><th scope="col">Countries</th><th scope="col">Respondents</th><th scope="col">Questionnaire</th></tr></thead>
             <tbody>
-              <tr><td data-label="Wave">2025</td><td data-label="Fielded">March&ndash;April 2025</td><td data-label="Countries">32</td><td data-label="Respondents">More than 32,000 adults (about 1,000 per country)</td><td data-label="Questionnaire"><span class="soon">Coming soon</span></td></tr>
-              <tr><td data-label="Wave">2026</td><td data-label="Fielded">April&ndash;May 2026</td><td data-label="Countries">32</td><td data-label="Respondents">More than 64,000 adults (about 2,000 per country)</td><td data-label="Questionnaire"><span class="soon">Coming soon</span></td></tr>
+              <tr><td data-label="Wave">2025</td><td data-label="Fielded">March&ndash;April 2025</td><td data-label="Countries">32</td><td data-label="Respondents">More than 32,000 adults (about 1,000 per country)</td><td data-label="Questionnaire"><a href="files/2025.pdf" target="_blank" rel="noopener">View<span aria-hidden="true"> &#8599;</span></a></td></tr>
+              <tr><td data-label="Wave">2026</td><td data-label="Fielded">April&ndash;May 2026</td><td data-label="Countries">32</td><td data-label="Respondents">More than 64,000 adults (about 2,000 per country)</td><td data-label="Questionnaire"><a href="files/2026.pdf" target="_blank" rel="noopener">View<span aria-hidden="true"> &#8599;</span></a></td></tr>
             </tbody>
           </table>
-        </section>
+        </details>
 
-        <section class="data-panel" id="other-data-codes">
-          <h2>Other Data &amp; Replication Code</h2>
+        <details class="data-panel" id="other-data-codes" open>
+          <summary class="data-summary">Other Data &amp; Replication Code</summary>
           <p class="section-lead">Replication data and code for selected papers.</p>
           <ul class="paper-list">
             <li class="paper-item">
@@ -303,7 +307,7 @@
               <div class="paper-links"><a href="data &amp; code/data_Lettau_Maggiori_Weber_2014_ConditionalRiskPremiaCurrencyMarkets_JFE.xlsx" class="paper-link">Data</a></div>
             </li>
           </ul>
-        </section>
+        </details>
 
       </article>
     </main>
@@ -374,5 +378,7 @@
       sel.disabled=false;sel.addEventListener('change',render);render();
     })();
   </script>
+  <script src="data &amp; code/nielsen-interactive/interactive-inflation-data.js" defer></script>
+  <script src="data &amp; code/nielsen-interactive/interactive-inflation-chart.js" defer></script>
 </body>
 </html>
